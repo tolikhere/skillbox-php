@@ -4,7 +4,7 @@ $textStorage = [];
 
 function add(array &$storage, string $title, string $text): void
 {
-    $storage[] = ['title' => $title, 'text' => $text];
+    $storage[] = ['title' => $title, 'text' => $text, ];
 }
 
 add($textStorage, 'New Games', "God of War: Ragnarok, Demon's Souls, Atomic Heart");
@@ -14,28 +14,28 @@ print_r($textStorage);
 
 function remove(array &$storage, int $textIndex): bool
 {
-    $is_value_set = isset($storage[$textIndex]);
-    if ($is_value_set) {
+    $isValueSet = isset($storage[$textIndex]);
+    if ($isValueSet) {
         array_splice($storage, $textIndex, 1);
     }
 
-    return $is_value_set;
+    return $isValueSet;
 }
 
 var_dump(remove($textStorage, 0));
 var_dump(remove($textStorage, 5));
 print_r($textStorage);
 
-function edit(int $textIndex, string $titleKey, string $text, array &$storage): bool
+function edit(int $textIndex, string $title, string $text, array &$storage): bool
 {
-    $is_text_exist = isset($storage[$textIndex]);
-    if ($is_text_exist) {
-        $storage[$textIndex][$titleKey] = $text;
+    $isTextExist = isset($storage[$textIndex]);
+    if ($isTextExist) {
+        $storage[$textIndex] = ['title' => $title, 'text' => $text, ];
     }
 
-    return $is_text_exist;
+    return $isTextExist;
 }
 
-edit(0, 'title', 'Turn Off The Light', $textStorage);
+edit(0, 'Turn Off The Light', $textStorage[0]['text'], $textStorage);
 print_r($textStorage);
-var_dump(edit(2, 'title', 'Lack Of Imagination', $textStorage));
+var_dump(edit(2, 'Lack Of Imagination', 'some people...', $textStorage));
