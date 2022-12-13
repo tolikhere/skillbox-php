@@ -14,12 +14,12 @@ print_r($textStorage);
 
 function remove(array &$storage, int $textIndex): bool
 {
-    $isValueSet = isset($storage[$textIndex]);
-    if ($isValueSet) {
+    $hasText = isset($storage[$textIndex]);
+    if ($hasText) {
         array_splice($storage, $textIndex, 1);
     }
 
-    return $isValueSet;
+    return $hasText;
 }
 
 var_dump(remove($textStorage, 0));
@@ -28,12 +28,12 @@ print_r($textStorage);
 
 function edit(int $textIndex, string $title, string $text, array &$storage): bool
 {
-    $isTextExist = isset($storage[$textIndex]);
-    if ($isTextExist) {
+    $hasText = isset($storage[$textIndex]);
+    if ($hasText) {
         $storage[$textIndex] = ['title' => $title, 'text' => $text, ];
     }
 
-    return $isTextExist;
+    return $hasText;
 }
 
 edit(0, 'Turn Off The Light', $textStorage[0]['text'], $textStorage);
