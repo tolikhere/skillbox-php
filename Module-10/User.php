@@ -11,4 +11,10 @@ abstract class User implements EventListenerInterface
     public $role;
 
     abstract public function getTextsToEdit();
+    public function attachEvent($method, $callBack): void
+    {
+    }
+    public function detouchEvent($method): void
+    {
+    }
 }
