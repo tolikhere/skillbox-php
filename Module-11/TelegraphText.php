@@ -14,16 +14,13 @@ class TelegraphText
     {
         $this->author = $author;
         $this->slug = $fileName;
-        $this->published = date('Y-m-d');
+        $this->published = date('d-m-Y');
     }
 
     public function setAuthor(string $author): void
     {
         if (mb_strlen($author) <= 120) {
             $this->author = $author;
-        } else {
-            echo 'Your name can be up to 120(including) characters long' . PHP_EOL;
-            exit;
         }
     }
 
@@ -38,9 +35,6 @@ class TelegraphText
 
         if ($isValidSlug) {
             $this->slug = $slug;
-        } else {
-            echo "For a slug name, use only latin letters, integers, and symbols - and _ " . PHP_EOL;
-            exit;
         }
     }
 
@@ -51,7 +45,7 @@ class TelegraphText
 
     public function setPublished($date): void //See DateTime class php.net for a valid input
     {
-        //Use this format: Year-month-day => 2022-01-01(an example) for a input
+        //Use this format: day-month-Year => 01-01-2022(an example) for a input
         $oldDate = new \DateTime($this->published);
         $newDate = new \DateTime($date);
 
@@ -108,10 +102,10 @@ class TelegraphText
             case 'published':
                 $this->setPublished($value);
                 break;
-//            case 'text':
-//                $this->editText($this->title, $value);
-//                $this->storeText();
-//                break;
+            case 'text':
+                $this->editText($this->title, $value);
+                $this->storeText();
+                break;
         }
     }
 
@@ -125,7 +119,6 @@ class TelegraphText
             case 'published':
                 return $this->getPublished();
             case 'text':
-                $this->storeText();
                 return $this->loadText();
         }
     }
