@@ -1,0 +1,100 @@
+html,
+body {
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: black;
+}
+
+a:active {
+  color: black;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  background: url(https://images.unsplash.com/photo-1505063125856-f6c3ea28b94c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.btn-send {
+  color: #fff;
+  background-color: #9e311a;
+  border-color: #9e311a;
+}
+
+.btn-send:hover {
+  color: #fff;
+  background-color: #851513;
+  border-color: #851513;
+}
+
+.btn-send:active {
+  color: #fff !important;
+  background-color: #9e311a !important;
+  border-color: #9e311a !important;
+}
+.form-telegraph {
+  max-width: 430px;
+  padding: 15px;
+}
+
+.form-telegraph .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-telegraph input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-telegraph input[type="email"] {
+  margin-bottom: -1px;
+  border-radius: 0;
+}
+
+.form-telegraph textarea {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.form-floating textarea {
+  min-height: 150px !important;
+  max-height: 400px !important;
+}
+
+/* Output status */
+
+.box-status {
+  border-radius: 5px;
+}
+
+.box-status p {
+  padding: 12px;
+}
+
+.success {
+  background-color: green;
+}
+
+.mail-error {
+  background-color: red;
+}
+
+.exception {
+  background-color: pink;
+  font-weight: 900;
+  font-size: 2rem;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;  
+}
