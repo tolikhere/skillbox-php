@@ -1,3 +1,7 @@
-/.vscode/
-**/.editorconfig
-/vendor/
+.vscode/
+vendor/
+.editorconfig
+.dockerignore
+.env
+storage/
+
