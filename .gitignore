@@ -2,7 +2,6 @@
 vendor/
 .editorconfig
 .dockerignore
-.env
 storage/
 
 ###> symfony/framework-bundle ###
