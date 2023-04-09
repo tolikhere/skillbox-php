@@ -7,6 +7,7 @@
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "league/commonmark": "^2.4",
         "symfony/asset": "6.2.*",
         "symfony/console": "6.2.*",
         "symfony/dotenv": "6.2.*",
@@ -16,7 +17,8 @@
         "symfony/runtime": "6.2.*",
         "symfony/twig-bundle": "6.2.*",
         "symfony/yaml": "6.2.*",
-        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/extra-bundle": "^3.5",
+        "twig/markdown-extra": "^3.5",
         "twig/twig": "^2.12|^3.0"
     },
     "config": {
@@ -69,6 +71,7 @@
     },
     "require-dev": {
         "symfony/debug-bundle": "6.2.*",
+        "symfony/maker-bundle": "^1.48",
         "symfony/stopwatch": "6.2.*",
         "symfony/web-profiler-bundle": "6.2.*"
     }
