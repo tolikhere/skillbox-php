@@ -77,9 +77,9 @@ possess, then you have nothing." - *Obi-Wan Kenobi*'
     private function insertWord(string $paragraphs, string $word, int $wordsCount): string
     {
         $words = explode(' ', $paragraphs);
-        $length = count($words);
         $formattedWord = $this->isStyleBold ? "**{$word}**" : "*{$word}*";
         while ($wordsCount > 0) {
+            $length = count($words);
             $randomIndex = mt_rand(0, $length);
             array_splice($words, $randomIndex, 0, [$formattedWord]);
             $wordsCount--;

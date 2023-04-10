@@ -3,11 +3,12 @@
 namespace App\Controller;
 
 use App\Homework\ArticleContentProvider;
+use App\Homework\ArticleContentProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Homework\ArticleProvider;
-use Symfony\Component\HttpFoundation\Request;
 
 class ArticleController extends AbstractController
 {
@@ -25,20 +26,15 @@ class ArticleController extends AbstractController
     {
         // If number is less or equal to 70 then we'll send a random word and amount of it to the get method
         // If not then only amount of paragraphs
-        $paragraphsCount = mt_rand(2, 10);
+        $paragraphs = mt_rand(2, 10);
+        $word = null;
+        $wordsCount = 0;
         if (mt_rand(1, 100) <= 70) {
             $words = ['Is', 'Толик', 'Batman', 'Superman', 'or', 'Jedi'];
-            $randomWord = $words[mt_rand(0, count($words) - 1)];
+            $word = $words[mt_rand(0, count($words) - 1)];
             $wordsCount = mt_rand(1, 9);
-
-            $articleContent = $content->get(
-                $paragraphsCount,
-                $randomWord,
-                $wordsCount
-            );
-        } else {
-            $articleContent = $content->get($paragraphsCount);
         }
+        $articleContent = $content->get($paragraphs, $word, $wordsCount);
 
         return $this->render('articles/detail.html.twig', [
             'article' => $articleProvider->article(),
@@ -46,15 +42,15 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/api/v1/article-content/', name: 'api_article_content', methods: ['POST'])]
-    public function sendArticle(Request $request, ArticleContentProvider $content): Response
+    #[Route('/articles/article-content', name: 'app_article_content', methods: ['GET'])]
+    public function generateArticle(Request $request, ArticleContentProviderInterface $articleContentProvider): Response
     {
-        $paragraphs = $request->request->get('paragraphs');
-        $word = $request->request->get('word');
-        $wordsCount = $request->request->get('wordsCount');
+        $paragraphs = is_numeric($request->query->get('paragraphs')) ? (int) $request->query->get('paragraphs') : 0;
+        $word = $request->query->get('word') ?? null;
+        $wordsCount = is_numeric($request->query->get('wordsCount')) ? (int) $request->query->get('wordsCount') : 0;
 
-        return $this->json([
-            'text' => $content->get($paragraphs, $word, $wordsCount ?? 0)
+        return $this->render('articles/content.html.twig', [
+            'content' => $articleContentProvider->get($paragraphs, $word, $wordsCount)
         ]);
     }
 }
