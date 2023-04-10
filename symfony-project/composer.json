@@ -7,6 +7,7 @@
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "knplabs/knp-time-bundle": "^1.20",
         "league/commonmark": "^2.4",
         "symfony/asset": "6.2.*",
         "symfony/console": "6.2.*",
@@ -19,6 +20,7 @@
         "symfony/yaml": "6.2.*",
         "twig/extra-bundle": "^3.5",
         "twig/markdown-extra": "^3.5",
+        "twig/string-extra": "^3.5",
         "twig/twig": "^2.12|^3.0"
     },
     "config": {
