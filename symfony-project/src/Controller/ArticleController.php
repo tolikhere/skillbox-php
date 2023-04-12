@@ -2,43 +2,35 @@
 
 namespace App\Controller;
 
-use App\Homework\ArticleContentProvider;
+use App\Entity\Article;
 use App\Homework\ArticleContentProviderInterface;
+use App\Traits\ArticleContentGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Homework\ArticleProvider;
+use App\Repository\ArticleRepository;
 
 class ArticleController extends AbstractController
 {
+    use ArticleContentGenerator;
+
     #[Route('/', name: 'app_homepage', methods: ['GET'])]
-    public function homepage(ArticleProvider $articleProvider): Response
+    public function homepage(ArticleRepository $articleRepository): Response
     {
+        $articles = $articleRepository->orderByPublishedAtField();
+
         return $this->render('articles/homepage.html.twig', [
             'title' => 'Spill-Coffee-On-The-Keyboard',
-            'articles' => $articleProvider->articles(),
+            'articles' => $articles,
         ]);
     }
 
-    #[Route('/detail', name: 'app_article_detail', methods: ['GET'])]
-    public function showDetail(ArticleProvider $articleProvider, ArticleContentProvider $content): Response
+    #[Route('/detail/{slug}', name: 'app_article_detail', methods: ['GET'])]
+    public function showDetail(Article $article, ArticleRepository $articleRepository): Response
     {
-        // If number is less or equal to 70 then we'll send a random word and amount of it to the get method
-        // If not then only amount of paragraphs
-        $paragraphs = mt_rand(2, 10);
-        $word = null;
-        $wordsCount = 0;
-        if (mt_rand(1, 100) <= 70) {
-            $words = ['Is', 'Толик', 'Batman', 'Superman', 'or', 'Jedi'];
-            $word = $words[mt_rand(0, count($words) - 1)];
-            $wordsCount = mt_rand(1, 9);
-        }
-        $articleContent = $content->get($paragraphs, $word, $wordsCount);
-
         return $this->render('articles/detail.html.twig', [
-            'article' => $articleProvider->article(),
-            'content' => $articleContent
+            'article' => $article
         ]);
     }
 
