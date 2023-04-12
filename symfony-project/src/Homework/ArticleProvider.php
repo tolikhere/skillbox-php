@@ -11,17 +11,17 @@ class ArticleProvider
         [
             'title' => 'Что делать, если надо верстать?',
             'slug'  => 'what-to-do-if-you-need-to-type',
-            'image' => 'images/article-2.jpeg',
+            'image' => 'article-2.jpeg',
         ],
         [
             'title' => 'Facebook ест твои данные',
             'slug'  => 'facebook-eats-your-data',
-            'image' => 'images/article-1.jpeg',
+            'image' => 'article-1.jpeg',
         ],
         [
             'title' => 'Когда пролил кофе на клавиатуру',
             'slug'  => 'when-spilled-coffee-on-keyboard',
-            'image' => 'images/article-3.jpg',
+            'image' => 'article-3.jpg',
         ]
     ];
 

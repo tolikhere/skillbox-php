@@ -7,6 +7,9 @@
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/doctrine-bundle": "^2.9",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.14",
         "knplabs/knp-time-bundle": "^1.20",
         "league/commonmark": "^2.4",
         "symfony/asset": "6.2.*",
@@ -68,10 +71,12 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.2.*"
+            "require": "6.2.*",
+            "docker": true
         }
     },
     "require-dev": {
+        "fakerphp/faker": "^1.21",
         "symfony/debug-bundle": "6.2.*",
         "symfony/maker-bundle": "^1.48",
         "symfony/stopwatch": "6.2.*",
