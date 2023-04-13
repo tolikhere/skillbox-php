@@ -27,7 +27,7 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/detail/{slug}', name: 'app_article_detail', methods: ['GET'])]
-    public function showDetail(Article $article, ArticleRepository $articleRepository): Response
+    public function showDetail(Article $article): Response
     {
         return $this->render('articles/detail.html.twig', [
             'article' => $article

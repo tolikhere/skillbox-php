@@ -39,8 +39,8 @@
                         <span class="{{ article.votesClassName }}" data-id="voteCount">
                         {{ article.voteCount }}
                         </span>
-                        <button class="btn btn-success ml-3" data-id="voteButton" data-href="{{ path("app_article_vote_up", { slug: article.slug }) }}"><i class="fas fa-arrow-up"></i></button>
-                        <button class="btn btn-danger" data-id="voteButton" data-href="{{ path("app_article_vote_down", { slug: article.slug }) }}"><i class="fas fa-arrow-down"></i></button>
+                        <button class="btn btn-success ml-3" data-id="voteButton" data-href="{{ path("app_article_vote", { slug: article.slug, direction: 'up' }) }}"><i class="fas fa-arrow-up"></i></button>
+                        <button class="btn btn-danger" data-id="voteButton" data-href="{{ path("app_article_vote", { slug: article.slug, direction: 'down' }) }}"><i class="fas fa-arrow-down"></i></button>
                     </div>
                 </div>
             </div>
