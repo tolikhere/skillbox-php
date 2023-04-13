@@ -12,6 +12,7 @@
         "doctrine/orm": "^2.14",
         "knplabs/knp-time-bundle": "^1.20",
         "league/commonmark": "^2.4",
+        "stof/doctrine-extensions-bundle": "^1.7",
         "symfony/asset": "6.2.*",
         "symfony/console": "6.2.*",
         "symfony/dotenv": "6.2.*",
@@ -70,16 +71,18 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "6.2.*",
             "docker": true
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "fakerphp/faker": "^1.21",
         "symfony/debug-bundle": "6.2.*",
         "symfony/maker-bundle": "^1.48",
         "symfony/stopwatch": "6.2.*",
-        "symfony/web-profiler-bundle": "6.2.*"
+        "symfony/web-profiler-bundle": "6.2.*",
+        "zenstruck/foundry": "^1.31"
     }
 }

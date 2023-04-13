@@ -16,7 +16,6 @@ class ArticlesController extends AbstractController
 {
     use ArticleContentGenerator;
 
-    #[Route('/admin/articles/create', name: 'app_admin_articles_create')]
     public function create(
         ArticleContentProviderInterface $articleContentProvider,
         ArticleProvider $articleProvider,
@@ -25,7 +24,6 @@ class ArticlesController extends AbstractController
         $faker = Factory::create();
         [
             'title' => $title,
-            'slug' => $slug,
             'image' => $image
         ] = $articleProvider->article();
 
@@ -34,7 +32,6 @@ class ArticlesController extends AbstractController
         $description = mb_substr($body, 0, 100);
         $article
             ->setTitle($title)
-            ->setSlug($slug . '-' . mt_rand(1, 1000))
             ->setDescription($description)
             ->setBody($body)
             ->setAuthor($faker->name())

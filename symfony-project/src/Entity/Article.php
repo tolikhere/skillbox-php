@@ -5,10 +5,14 @@ namespace App\Entity;
 use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
 {
+    use TimestampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -18,6 +22,7 @@ class Article
     private ?string $title = null;
 
     #[ORM\Column(length: 100, unique: true)]
+    #[Slug(fields: ['title'])]
     private ?string $slug = null;
 
     #[ORM\Column(length: 100)]

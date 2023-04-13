@@ -10,18 +10,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ArticleVoteController extends AbstractController
 {
-    #[Route('/articles/{slug}/vote/up', name: 'app_article_vote_up', methods: ['POST'])]
-    public function voteUp(Article $article, EntityManagerInterface $entityManager): Response
+    #[Route(
+        '/articles/{slug}/vote/{direction}',
+        name: 'app_article_vote',
+        requirements: ['direction ' => 'up|down'],
+        methods: ['POST']
+    )]
+    public function vote(Article $article, string $direction, EntityManagerInterface $entityManager): Response
     {
-        $article->voteUp();
-        $entityManager->flush();
-        return $this->json(['votes' => $article->getVoteCount()]);
-    }
-
-    #[Route('/articles/{slug}/vote/down', name: 'app_article_vote_down', methods: ['POST'])]
-    public function voteDown(Article $article, EntityManagerInterface $entityManager): Response
-    {
-        $article->voteDown();
+        if ($direction === 'up') {
+            $article->voteUp();
+        } else {
+            $article->voteDown();
+        }
         $entityManager->flush();
         return $this->json(['votes' => $article->getVoteCount()]);
     }
