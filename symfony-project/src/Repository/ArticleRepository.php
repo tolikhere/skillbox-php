@@ -45,11 +45,29 @@ class ArticleRepository extends ServiceEntityRepository
     public function orderByPublishedAtField(): array
     {
         return $this->createQueryBuilder('a')
+            ->innerJoin('a.comments', 'c')
+            ->addSelect('c')
             ->orderBy('a.publishedAt', 'DESC')
             ->getQuery()
             ->getResult()
         ;
     }
+
+    /**
+    * @return Article[] Returns an array of Article objects
+    */
+    public function findBySlugField(?string $slug): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->innerJoin('a.comments', 'c')
+            ->addSelect('c')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 
 //    /**
 //     * @return Article[] Returns an array of Article objects

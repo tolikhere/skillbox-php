@@ -3,7 +3,7 @@
 namespace App\Factory;
 
 use App\Entity\Article;
-use App\Homework\ArticleContentProvider;
+use App\Homework\ArticleContentProviderInterface;
 use App\Homework\ArticleProvider;
 use App\Repository\ArticleRepository;
 use App\Traits\ArticleContentGenerator;
@@ -39,8 +39,10 @@ final class ArticleFactory extends ModelFactory
      *
      * @todo inject services if required
      */
-    public function __construct()
-    {
+    public function __construct(
+        private ArticleProvider $articleProvider,
+        private ArticleContentProviderInterface $articleContentProvider
+    ) {
         parent::__construct();
     }
 
@@ -54,9 +56,9 @@ final class ArticleFactory extends ModelFactory
         [
             'title' => $title,
             'image' => $image
-        ] = (new ArticleProvider())->article();
+        ] = $this->articleProvider->article();
 
-        $body = $this->getArticleContent(new ArticleContentProvider(true));
+        $body = $this->getArticleContent();
         $description = mb_substr($body, 0, 100);
 
         return [
@@ -66,8 +68,8 @@ final class ArticleFactory extends ModelFactory
             'title' => $title,
             'keywords' => self::faker()->words(5, true),
             'imageFilename' => $image,
-            'publishedAt' =>  new \DateTimeImmutable(
-                self::faker()->dateTimeBetween('-100 days')->format('D, d M Y H:i:s')
+            'publishedAt' =>  \DateTimeImmutable::createFromMutable(
+                self::faker()->dateTimeBetween('-100 days', '-1 days')
             ),
             'voteCount' => self::faker()->numberBetween(-100, 100)
         ];
