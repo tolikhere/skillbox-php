@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Repository\CommentRepository;
+use App\Repository\TagRepository;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,12 +10,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CommentsController extends AbstractController
+class TagsControllerPhpController extends AbstractController
 {
-    #[Route('/admin/comments', name: 'app_admin_comments')]
-    public function index(Request $request, CommentRepository $commentRepository): Response
+    #[Route('/admin/tags', name: 'app_admin_tags')]
+    public function index(Request $request, TagRepository $tagRepository): Response
     {
-        $queryBuilder = $commentRepository->createOrderedByCreatedAtQueryBuilder(
+        $queryBuilder = $tagRepository->createOrderedByCreatedAtQueryBuilder(
             $request->query->get('q'),
             $request->query->has('showDeleted')
         );
@@ -26,7 +26,7 @@ class CommentsController extends AbstractController
             $request->query->get('page', 1),
             $request->query->get('itemsPerPage', 20)
         );
-        return $this->render('admin/comments/index.html.twig', [
+        return $this->render('admin/tags/index.html.twig', [
             'pager' => $pagerfanta,
         ]);
     }

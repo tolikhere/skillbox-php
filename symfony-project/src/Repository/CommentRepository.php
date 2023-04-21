@@ -39,7 +39,22 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllWithSearch(string $search = null, bool $hasDeleted = false, int $limit = null)
+    public function findLatestComments(int $limit)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        return $qb
+            ->andWhere("c.deletedAt IS NULL")
+            ->setMaxResults($limit)
+            ->innerJoin('c.article', 'a')
+            ->addSelect('a')
+            ->orderBy('c.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function createOrderedByCreatedAtQueryBuilder(string $search = null, bool $hasDeleted = false)
     {
         $qb = $this->createQueryBuilder('c');
 
@@ -53,16 +68,10 @@ class CommentRepository extends ServiceEntityRepository
         if (! $hasDeleted) {
             $qb->andWhere("c.deletedAt IS NULL");
         }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
         return $qb
             ->innerJoin('c.article', 'a')
             ->addSelect('a')
             ->orderBy('c.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult()
         ;
     }
 
