@@ -47,6 +47,8 @@ class ArticleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->innerJoin('a.comments', 'c')
             ->addSelect('c')
+            ->leftJoin('a.tags', 't')
+            ->addSelect('t')
             ->orderBy('a.publishedAt', 'DESC')
             ->getQuery()
             ->getResult()
@@ -63,6 +65,8 @@ class ArticleRepository extends ServiceEntityRepository
             ->setParameter('slug', $slug)
             ->innerJoin('a.comments', 'c')
             ->addSelect('c')
+            ->leftJoin('a.tags', 't')
+            ->addSelect('t')
             ->getQuery()
             ->getResult()
         ;

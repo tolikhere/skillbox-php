@@ -1,0 +1,45 @@
+{% extends 'base_content.html.twig' %}
+
+{% block title %}Управление Тегами{% endblock %}
+
+{% block content %}
+    <h1>Управление тегами ({{ pager.nbResults }})</h1>
+
+    {% include 'partial/admin_form_search.html.twig' %}
+
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Символьный код</th>
+            <th>Количество статей</th>
+            <th>Название статей</th>
+            <th>Дата</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tag in pager %}
+            <tr>
+                <td>{{ tag.name }}</td>
+                <td style="width: 20%;">{{ tag.slug }}</td>
+                <td>{{ tag.articles|length }}</td>
+                <td>
+                    {% if tag.articles|length %}
+                        <ul>
+                            {% for article in tag.articles %}
+                                <li>{{ article.title }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </td>
+                <td>{{ tag.createdAt|ago(locale='ru') }} {% if tag.deletedAt %}DELETED{% endif %}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Нет комментариев</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{{ pagerfanta(pager) }}
+{% endblock %}

@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\Homework\ArticleContentProviderInterface;
 use App\Traits\ArticleContentGenerator;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
+use Pagerfanta\Pagerfanta;
 
 class ArticleController extends AbstractController
 {
@@ -19,7 +21,7 @@ class ArticleController extends AbstractController
     public function homepage(ArticleRepository $articleRepository, CommentRepository $commentRepository): Response
     {
         $articles = $articleRepository->orderByPublishedAtField();
-        $comments = $commentRepository->findAllWithSearch(limit: 3);
+        $comments = $commentRepository->findLatestComments(3);
 
         return $this->render('articles/homepage.html.twig', [
             'title' => 'Spill-Coffee-On-The-Keyboard',
