@@ -13,6 +13,20 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+        // Creating Admin
+        UserFactory::createOne([
+            'firstName' => 'Kratos',
+            'email' => 'admin@symfony.skillbox',
+            'isActive' => true,
+            'roles' => ['ROLE_ADMIN'],
+        ]);
+        // Creating API Admin
+        UserFactory::createOne([
+            'firstName' => 'Atreus',
+            'email' => 'api@symfony.skillbox',
+            'isActive' => true,
+            'roles' => ['ROLE_API'],
+        ]);
         UserFactory::createMany(10);
         TagFactory::createMany(50);
 

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Административный раздел{% endblock %}
+
+{% block body %}
+    <h1>Административный раздел</h1>
+    <ul>
+        {% if is_granted('ROLE_ADMIN_COMMENT') %}
+            <li><a href="{{ path('app_admin_comments') }}">Управления комментариями.</a></li>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN_TAG') %}
+            <li><a href="{{ path('app_admin_tags') }}">Управления тегами.</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}

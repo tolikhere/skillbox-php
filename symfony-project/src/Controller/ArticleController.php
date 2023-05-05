@@ -4,14 +4,12 @@ namespace App\Controller;
 
 use App\Homework\ArticleContentProviderInterface;
 use App\Traits\ArticleContentGenerator;
-use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
-use Pagerfanta\Pagerfanta;
 
 class ArticleController extends AbstractController
 {

@@ -69,7 +69,7 @@
         <div class="row mt-2">
             <div class="col-sm-12">
                 <div class="media">
-                    <img class="align-self-start comment-img rounded-circle" src="https://robohash.org/{{ comment.authorName|length }}">
+                    <img class="align-self-start comment-img rounded-circle" src="{{ comment.avatarUrl }}">
                     <div class="media-body align-self-start col-sm-6">
                         <b>{{ comment.authorName }}</b>
                         <small>{{ comment.createdAt|ago(locale='ru') }} {% if comment.deletedAt %}DELETED{% endif %}</small>

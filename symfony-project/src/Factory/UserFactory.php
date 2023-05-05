@@ -51,6 +51,7 @@ final class UserFactory extends ModelFactory
         return [
             'firstName' => self::faker()->firstName(),
             'email' => self::faker()->email(),
+            'isActive' => ! self::faker()->boolean(30)
         ];
     }
 
@@ -64,9 +65,6 @@ final class UserFactory extends ModelFactory
                 $user->setPassword(
                     $this->userPasswordHasher->hashPassword($user, 'Kratos')
                 );
-                if (self::faker()->boolean(30)) {
-                    $user->setIsActive(false);
-                }
             })
         ;
     }

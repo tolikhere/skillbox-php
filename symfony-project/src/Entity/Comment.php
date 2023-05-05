@@ -70,4 +70,12 @@ class Comment
 
         return $this;
     }
+
+    public function getAvatarUrl(): string
+    {
+        return sprintf(
+            'https://robohash.org/%s.png?set=set1',
+            str_replace(' ', '_', $this->authorName)
+        );
+    }
 }

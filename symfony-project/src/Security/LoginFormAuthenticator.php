@@ -35,7 +35,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $email = $request->request->get('email', '');
         $user  = $this->userRepository->findOneBy(['email' => $email]);
 
-        if (! $user->isIsActive()) {
+        if (! $user || ! $user->isIsActive()) {
             throw new CustomUserMessageAccountStatusException("Don't Be Sorry, Be Better. - Kratos");
         }
 
