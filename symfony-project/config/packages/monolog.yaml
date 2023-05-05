@@ -4,7 +4,13 @@ monolog:
 
 when@dev:
     monolog:
+        channels: [api]
         handlers:
+            api_logging:
+                level:    warning
+                type:     stream
+                path:     '%kernel.logs_dir%/api.log'
+                channels: ["api"]
             main:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
