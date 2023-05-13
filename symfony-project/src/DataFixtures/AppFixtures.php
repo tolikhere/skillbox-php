@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Factory\ApiTokenFactory;
 use App\Factory\ArticleFactory;
 use App\Factory\CommentFactory;
 use App\Factory\TagFactory;
@@ -19,6 +20,7 @@ class AppFixtures extends Fixture
             'email' => 'admin@symfony.skillbox',
             'isActive' => true,
             'roles' => ['ROLE_ADMIN'],
+            'apiTokens' => ApiTokenFactory::new()->many(1),
         ]);
         // Creating API Admin
         UserFactory::createOne([
@@ -26,16 +28,24 @@ class AppFixtures extends Fixture
             'email' => 'api@symfony.skillbox',
             'isActive' => true,
             'roles' => ['ROLE_API'],
+            'apiTokens' => ApiTokenFactory::new()->many(3),
         ]);
-        UserFactory::createMany(10);
+        // Creating Many Users
+        UserFactory::createMany(10, function () {
+            return [
+                'apiTokens' => ApiTokenFactory::new()->many(1),
+            ];
+        });
+        // Creating Many Tags
         TagFactory::createMany(50);
-
+        // Creating Many Articles
         ArticleFactory::createMany(20, function () {
             return [
                 'comments' => CommentFactory::new()->many(2, 10),
                 'tags' => TagFactory::randomRange(0, 5),
             ];
         });
+
         $manager->flush();
     }
 }

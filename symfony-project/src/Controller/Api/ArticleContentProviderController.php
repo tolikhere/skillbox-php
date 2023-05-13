@@ -27,7 +27,7 @@ class ArticleContentProviderController extends AbstractController
                 'roles' => $user?->getRoles() ?? null,
                 'isAuthorized' => (bool) $user,
             ]);
-            throw $this->createAccessDeniedException('You Shall Not Pass!');
+            return $this->json(['message' => 'You Shall Not Pass!'], 401);
         }
         $data = $request->toArray();
         $paragraphs = $data['paragraphs'] ?? 0;

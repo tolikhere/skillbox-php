@@ -7,7 +7,7 @@ when@dev:
         channels: [api]
         handlers:
             api_logging:
-                level:    warning
+                level:    debug
                 type:     stream
                 path:     '%kernel.logs_dir%/api.log'
                 channels: ["api"]
