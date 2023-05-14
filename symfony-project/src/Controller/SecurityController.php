@@ -2,10 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
+use App\Security\LoginFormAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class SecurityController extends AbstractController
 {
@@ -22,6 +28,34 @@ class SecurityController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+    }
+
+    #[Route(path: '/register', name: 'app_register')]
+    public function register(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        UserRepository $userRepository,
+        UserAuthenticatorInterface $userAuthenticator,
+        LoginFormAuthenticator $loginFormAuthenticator
+    ): Response {
+        if ($request->isMethod('POST')) {
+            $user = new User();
+            $user
+                ->setEmail($request->request->get('email'))
+                ->setFirstName($request->request->get('firstName'))
+                ->setPassword($userPasswordHasher->hashPassword($user, $request->request->get('password')))
+            ;
+
+            $userRepository->save($user, true);
+
+            return $userAuthenticator->authenticateUser(
+                $user,
+                $loginFormAuthenticator,
+                $request
+            );
+        }
+
+        return $this->render('security/register.html.twig', ['error' => '']);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]

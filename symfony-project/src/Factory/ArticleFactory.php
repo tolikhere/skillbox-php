@@ -62,7 +62,7 @@ final class ArticleFactory extends ModelFactory
         $description = mb_substr($body, 0, 100);
 
         return [
-            'author' => self::faker()->name(),
+            'author' => UserFactory::new(),
             'body' => $body,
             'description' => $description,
             'title' => $title,

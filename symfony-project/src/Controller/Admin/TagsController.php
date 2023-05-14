@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_ADMIN_TAG')]
-class TagsControllerPhpController extends AbstractController
+class TagsController extends AbstractController
 {
     #[Route('/admin/tags', name: 'app_admin_tags')]
     public function index(Request $request, TagRepository $tagRepository): Response

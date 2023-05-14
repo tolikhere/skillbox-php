@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('IS_AUTHENTICATED_REMEMBERED')]
-class AccountControllerPhpController extends AbstractController
+class AccountController extends AbstractController
 {
     #[Route('/account', name: 'app_account')]
     public function index(): Response

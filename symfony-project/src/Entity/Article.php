@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Slug;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -19,34 +20,40 @@ class Article
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('main')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('main')]
     private ?string $title = null;
 
     #[ORM\Column(length: 100, unique: true)]
     #[Slug(fields: ['title'])]
+    #[Groups('main')]
     private ?string $slug = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups('main')]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups('main')]
     private ?string $body = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $author = null;
-
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups('main')]
     private ?string $keywords = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups('main')]
     private int $voteCount = 0;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups('main')]
     private ?string $imageFilename = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups('main')]
     private ?\DateTimeImmutable $publishedAt = null;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class, fetch: 'EXTRA_LAZY')]
@@ -55,6 +62,10 @@ class Article
 
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'articles')]
     private Collection $tags;
+
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
 
     public function __construct()
     {
@@ -111,18 +122,6 @@ class Article
     public function setBody(string $body): self
     {
         $this->body = $body;
-
-        return $this;
-    }
-
-    public function getAuthor(): ?string
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(string $author): self
-    {
-        $this->author = $author;
 
         return $this;
     }
@@ -192,14 +191,6 @@ class Article
     public function getImagePath()
     {
         return 'images/' . $this->getImageFilename();
-    }
-
-    public function getAuthorAvatarPath()
-    {
-        return sprintf(
-            'https://robohash.org/%s.png?set=set1',
-            str_replace(' ', '_', $this->getAuthor())
-        );
     }
 
     public function getVotesClassName()
@@ -272,6 +263,18 @@ class Article
     public function removeTag(Tag $tag): self
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
