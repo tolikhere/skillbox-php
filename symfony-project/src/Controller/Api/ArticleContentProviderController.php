@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\User;
 use App\Homework\ArticleContentProviderInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,15 +12,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ArticleContentProviderController extends AbstractController
 {
-    /**
-     *@method User|null getUser()
-     */
     #[Route('/api/v1/article_content', name: 'api_article_content_provider', methods: ['POST'])]
     public function index(
         Request $request,
         ArticleContentProviderInterface $articleContentProvider,
         LoggerInterface $apiLogger
     ): JsonResponse {
+        /** @var User $user */
         $user = $this->getUser();
         if (! $this->isGranted('ROLE_API')) {
             $apiLogger->warning('User {userName} has tried to access /api/v1/article_content', [

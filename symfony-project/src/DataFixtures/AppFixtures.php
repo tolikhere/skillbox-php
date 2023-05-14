@@ -14,6 +14,22 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+        // Creating Many Users
+        UserFactory::createMany(10, function () {
+            return [
+                'apiTokens' => ApiTokenFactory::new()->many(1),
+            ];
+        });
+        // Creating Many Tags
+        TagFactory::createMany(50);
+        // Creating Many Articles
+        ArticleFactory::createMany(20, function () {
+            return [
+                'comments' => CommentFactory::new()->many(2, 10),
+                'tags' => TagFactory::randomRange(0, 5),
+                'author' => UserFactory::random()
+            ];
+        });
         // Creating Admin
         UserFactory::createOne([
             'firstName' => 'Kratos',
@@ -30,21 +46,6 @@ class AppFixtures extends Fixture
             'roles' => ['ROLE_API'],
             'apiTokens' => ApiTokenFactory::new()->many(3),
         ]);
-        // Creating Many Users
-        UserFactory::createMany(10, function () {
-            return [
-                'apiTokens' => ApiTokenFactory::new()->many(1),
-            ];
-        });
-        // Creating Many Tags
-        TagFactory::createMany(50);
-        // Creating Many Articles
-        ArticleFactory::createMany(20, function () {
-            return [
-                'comments' => CommentFactory::new()->many(2, 10),
-                'tags' => TagFactory::randomRange(0, 5),
-            ];
-        });
 
         $manager->flush();
     }
