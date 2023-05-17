@@ -39,15 +39,17 @@ security:
             'ROLE_ADMIN_COMMENT',
             'ROLE_ADMIN_TAG',
             'ROLE_ALLOWED_TO_SWITCH',
-            'ROLE_API',   # Added this role for debugging
-            'ROLE_ADMIN_ARTICLE',   # Added this role for debugging
+            'ROLE_API',
+            'ROLE_ADMIN_ARTICLE',
         ]
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/admin/articles/\d+/edit, roles: [ROLE_USER] }
-        - { path: ^/admin/articles/create, roles: [ROLE_ADMIN_ARTICLE] }
-        - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_ADMIN_TAG, ROLE_ADMIN_COMMENT] }
+        # - { path: ^/admin/articles/\d+/edit, roles: [ROLE_USER] }
+        # - { path: ^/admin/articles/create, roles: [ROLE_ADMIN_ARTICLE] }
+        # - { path: ^/admin/tags, roles: [ROLE_ADMIN_TAG] }
+        # - { path: ^/admin/comments, roles: [ROLE_ADMIN_COMMENT] }
+        # - { path: ^/admin, roles: [ROLE_ADMIN] }
         # - { path: ^/api/v1/article_content, roles: ROLE_API }
         # - { path: ^/profile, roles: ROLE_USER }
 

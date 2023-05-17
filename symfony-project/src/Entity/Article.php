@@ -181,6 +181,11 @@ class Article
         return $this->publishedAt;
     }
 
+    public function isPublished(): bool
+    {
+        return (bool) $this->publishedAt;
+    }
+
     public function setPublishedAt(?\DateTimeImmutable $publishedAt): self
     {
         $this->publishedAt = $publishedAt;

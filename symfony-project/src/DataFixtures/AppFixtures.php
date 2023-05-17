@@ -23,7 +23,7 @@ class AppFixtures extends Fixture
         // Creating Many Tags
         TagFactory::createMany(50);
         // Creating Many Articles
-        ArticleFactory::createMany(20, function () {
+        ArticleFactory::createMany(25, function () {
             return [
                 'comments' => CommentFactory::new()->many(2, 10),
                 'tags' => TagFactory::randomRange(0, 5),

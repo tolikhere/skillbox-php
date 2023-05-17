@@ -68,9 +68,9 @@ final class ArticleFactory extends ModelFactory
             'title' => $title,
             'keywords' => self::faker()->words(5, true),
             'imageFilename' => $image,
-            'publishedAt' =>  \DateTimeImmutable::createFromMutable(
+            'publishedAt' => self::faker()->boolean(70) ?  \DateTimeImmutable::createFromMutable(
                 self::faker()->dateTimeBetween('-100 days', '-1 days')
-            ),
+            ) : null,
             'voteCount' => self::faker()->numberBetween(-100, 100)
         ];
     }
