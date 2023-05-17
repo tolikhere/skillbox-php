@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -45,8 +46,11 @@ class ArticleRepository extends ServiceEntityRepository
     public function orderByPublishedAtField(): array
     {
         return $this->createQueryBuilder('a')
-            ->innerJoin('a.comments', 'c')
+            ->andWhere('a.publishedAt IS NOT NULL')
+            ->leftJoin('a.comments', 'c')
             ->addSelect('c')
+            ->leftJoin('a.author', 'u')
+            ->addSelect('u')
             ->leftJoin('a.tags', 't')
             ->addSelect('t')
             ->orderBy('a.publishedAt', 'DESC')
@@ -63,7 +67,7 @@ class ArticleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->andWhere('a.slug = :slug')
             ->setParameter('slug', $slug)
-            ->innerJoin('a.comments', 'c')
+            ->leftJoin('a.comments', 'c')
             ->addSelect('c')
             ->leftJoin('a.tags', 't')
             ->addSelect('t')
@@ -72,6 +76,20 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
 
+    public function latestQueryBuilder(string $search = null)
+    {
+        $query = $this->createQueryBuilder('a');
+        if ($search) {
+            $query
+                ->andWhere('a.title LIKE :search OR a.body LIKE :search OR u.firstName LIKE :search')
+                ->setParameter('search', "%$search%")
+            ;
+        }
+        return $query
+            ->leftJoin('a.author', 'u')
+            ->addSelect('u')
+            ->orderBy('a.publishedAt', 'DESC');
+    }
 
 //    /**
 //     * @return Article[] Returns an array of Article objects
