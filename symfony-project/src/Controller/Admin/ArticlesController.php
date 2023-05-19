@@ -15,11 +15,15 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ArticlesController extends AbstractController
 {
+    public function __construct(private ArticleRepository $articleRepository)
+    {
+    }
+
     #[IsGranted('ROLE_ADMIN_ARTICLE')]
     #[Route(path: '/admin/articles', name: 'app_admin_articles')]
-    public function index(Request $request, ArticleRepository $articleRepository): Response
+    public function index(Request $request): Response
     {
-        $queryBuilder = $articleRepository->latestQueryBuilder($request->query->get('q'));
+        $queryBuilder = $this->articleRepository->latestQueryBuilder($request->query->get('q'));
         $adapter = new QueryAdapter($queryBuilder);
         $pagerfanta = Pagerfanta::createForCurrentPageWithMaxPerPage(
             $adapter,
@@ -32,10 +36,8 @@ class ArticlesController extends AbstractController
     }
 
     #[Route(path: '/admin/articles/create', name: 'app_admin_articles_create')]
-    public function create(
-        Request $request,
-        ArticleRepository $articleRepository
-    ): Response {
+    public function create(Request $request): Response
+    {
         $form = $this->createForm(ArticleFormType::class);
 
         $form->handleRequest($request);
@@ -43,9 +45,9 @@ class ArticlesController extends AbstractController
             /** @var Article $article */
             $article = $form->getData();
 
-            $articleRepository->save($article, true);
+            $this->articleRepository->save($article, true);
 
-            $this->addFlash('success', 'Статья успешно создана.');
+            $this->addFlash('success', 'article.created_successfully');
 
             return $this->redirectToRoute('app_admin_articles');
         }
@@ -56,8 +58,22 @@ class ArticlesController extends AbstractController
 
     #[IsGranted('ARTICLE_EDIT', subject: 'article')]
     #[Route(path: '/admin/articles/{id}/edit', name: 'app_admin_articles_edit')]
-    public function edit(Article $article): Response
+    public function edit(Article $article, Request $request): Response
     {
-        return new Response('This is a Edit Article Page. ' . $article->getTitle());
+        $form = $this->createForm(ArticleFormType::class, $article);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Article $article */
+            $article = $form->getData();
+
+            $this->articleRepository->save($article, true);
+
+            $this->addFlash('success', 'article.edited_successfully');
+
+            return $this->redirectToRoute('app_admin_articles_edit', ['id' => $article->getId()]);
+        }
+
+        return $this->render('admin/article/edit.html.twig', ['form' => $form]);
     }
 }

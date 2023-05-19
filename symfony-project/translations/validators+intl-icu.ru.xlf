@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="ru" datatype="plaintext" original="file.ext">
+        <body>
+            <!-- Article -->
+            <trans-unit id="article.blank_title">
+                <source>article.blank_title</source>
+                <target>Пожалуйста, не оставляйте название статьи пустым!</target>
+            </trans-unit>
+            <trans-unit id="article.too_short_title">
+                <source>article.too_short_title</source>
+                <target>Название статьи слишком короткое, (минимум { limit } символа).</target>
+            </trans-unit>
+            <trans-unit id="article.no_numbers_title">
+                <source>article.no_numbers_title</source>
+                <target>Название статьи не должно содержать цифру</target>
+            </trans-unit>
+            <trans-unit id="article.blank_description">
+                <source>article.blank_description</source>
+                <target>Пожалуйста, не оставляйте описание статьи пустым!</target>
+            </trans-unit>
+            <trans-unit id="article.too_long_description">
+                <source>article.too_long_description</source>
+                <target>Описание статьи слишком длинное, (максимум { limit } символов).</target>
+            </trans-unit>
+            <trans-unit id="article.blank_body">
+                <source>article.blank_body</source>
+                <target>Пожалуйста, не оставляйте содержание статьи пустым!</target>
+            </trans-unit>
+            <trans-unit id="article.blank_author">
+                <source>article.blank_author</source>
+                <target>Пожалуйста, не оставляйте автор статьи пустым!</target>
+            </trans-unit>
+            <!-- USER -->
+            <trans-unit id="user.too_short_password">
+                <source>user.too_short_password</source>
+                <target>Пароль должен быть длинной не менее 6-ти символов!</target>
+            </trans-unit>
+            <trans-unit id="user.blank_password">
+                <source>user.blank_password</source>
+                <target>Пароль не указан!</target>
+            </trans-unit>
+            <trans-unit id="user.is_bot">
+                <source>user.is_bot</source>
+                <target>*"Ботам здесь не место"*</target>
+            </trans-unit>
+            <trans-unit id="user.unique_email">
+                <source>user.unique_email</source>
+                <target>Вы уже зарегистрированы!</target>
+            </trans-unit>
+            <trans-unit id="user.blank_email">
+                <source>user.blank_email</source>
+                <target>Email не указан!</target>
+            </trans-unit>
+            <trans-unit id="user.is_true_agree_terms">
+                <source>user.is_true_agree_terms</source>
+                <target>Вы должны согласиться с условиями!</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

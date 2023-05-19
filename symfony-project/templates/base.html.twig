@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="{{ app.request.locale }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -78,7 +78,7 @@
                         {% for label, messages in app.flashes %}
                             {% for message in messages %}
                                 <div class="alert alert-{{ label }}" role="alert">
-                                    {{ message }}
+                                    {{ message|trans }}
                                 </div>
                             {% endfor %}
                         {% endfor %}
