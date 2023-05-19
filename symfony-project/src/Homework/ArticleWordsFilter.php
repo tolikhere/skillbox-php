@@ -15,7 +15,7 @@ class ArticleWordsFilter
         // comparing every word in $string with every word in $words
         $filteredWords = array_filter($stringWords, function ($stringWord) use ($words) {
             foreach ($words as $word) {
-                if (mb_strpos($stringWord, $word) !== false) {
+                if (mb_stripos($stringWord, $word) !== false) {
                     return false;
                 }
             }

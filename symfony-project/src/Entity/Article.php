@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Slug;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -25,6 +26,9 @@ class Article
 
     #[ORM\Column(length: 255)]
     #[Groups('main')]
+    #[Assert\NotBlank(message: 'article.blank_title')]
+    #[Assert\Length(min: 3, minMessage: 'article.too_short_title')]
+    #[Assert\Regex(pattern: '/\d/', match: false, message: 'article.no_numbers_title')]
     private ?string $title = null;
 
     #[ORM\Column(length: 100, unique: true)]
@@ -34,10 +38,13 @@ class Article
 
     #[ORM\Column(length: 100)]
     #[Groups('main')]
+    #[Assert\NotBlank(message: 'article.blank_description')]
+    #[Assert\Length(max: 100, maxMessage: 'article.too_long_description')]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Groups('main')]
+    #[Assert\NotBlank(message: 'article.blank_body')]
     private ?string $body = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -65,6 +72,7 @@ class Article
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(message: 'article.blank_author')]
     private ?User $author = null;
 
     public function __construct()

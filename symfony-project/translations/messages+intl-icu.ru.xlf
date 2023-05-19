@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="ru" datatype="plaintext" original="file.ext">
+        <body>
+        <!-- ***ARTICLE*** -->
+            <!-- label -->
+            <trans-unit id="label.title">
+                <source>label.title</source>
+                <target>Название статьи</target>
+            </trans-unit>
+            <trans-unit id="label.description">
+                <source>label.description</source>
+                <target>Описание статьи</target>
+            </trans-unit>
+            <trans-unit id="label.body">
+                <source>label.body</source>
+                <target>Содержание статьи</target>
+            </trans-unit>
+            <trans-unit id="label.keywords">
+                <source>label.keywords</source>
+                <target>Ключевые слова статьи</target>
+            </trans-unit>
+            <trans-unit id="label.author">
+                <source>label.author</source>
+                <target>Автор статьи</target>
+            </trans-unit>
+            <trans-unit id="label.publishedAt">
+                <source>label.publishedAt</source>
+                <target>Дата публикации статьи</target>
+            </trans-unit>
+            <trans-unit id="label.create">
+                <source>label.create</source>
+                <target>Создать</target>
+            </trans-unit>
+            <trans-unit id="label.edit">
+                <source>label.edit</source>
+                <target>Изменить</target>
+            </trans-unit>
+            <!-- choices -->
+            <trans-unit id="choices.placeholder.author">
+                <source>choices.placeholder.author</source>
+                <target>Выберите автора статьи</target>
+            </trans-unit>
+            <!-- action -->
+            <trans-unit id="action.edit">
+                <source>action.edit</source>
+                <target>Сохранить изменения</target>
+            </trans-unit>
+            <trans-unit id="action.save">
+                <source>action.save</source>
+                <target>Сохранить</target>
+            </trans-unit>
+            <!-- title -->
+            <trans-unit id="title.create_article">
+                <source>title.create_article</source>
+                <target>Создание статьи</target>
+            </trans-unit>
+            <trans-unit id="title.edit_article">
+                <source>title.edit_article</source>
+                <target>Редактирование статьи</target>
+            </trans-unit>
+            <!-- flash -->
+            <trans-unit id="article.created_successfully">
+                <source>article.created_successfully</source>
+                <target>Статья успешно создана.</target>
+            </trans-unit>
+            <trans-unit id="article.edited_successfully">
+                <source>article.edited_successfully</source>
+                <target>Статья успешно изменена.</target>
+            </trans-unit>
+            <!-- ***USER*** -->
+            <trans-unit id="label.email">
+                <source>label.email</source>
+                <target>Email</target>
+            </trans-unit>
+            <trans-unit id="label.password">
+                <source>label.password</source>
+                <target>Пароль</target>
+            </trans-unit>
+            <trans-unit id="label.first_name">
+                <source>label.first_name</source>
+                <target>Ваше имя</target>
+            </trans-unit>
+            <trans-unit id="label.agree_terms">
+                <source>label.agree_terms</source>
+                <target>Согласен с условиями</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Form\UserRegistrationFormType;
 use App\Security\LoginFormAuthenticator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,19 +35,18 @@ class SecurityController extends AbstractController
     public function register(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
-        UserRepository $userRepository,
+        EntityManagerInterface $entityManager,
         UserAuthenticatorInterface $userAuthenticator,
         LoginFormAuthenticator $loginFormAuthenticator
     ): Response {
-        if ($request->isMethod('POST')) {
-            $user = new User();
-            $user
-                ->setEmail($request->request->get('email'))
-                ->setFirstName($request->request->get('firstName'))
-                ->setPassword($userPasswordHasher->hashPassword($user, $request->request->get('password')))
-            ;
-
-            $userRepository->save($user, true);
+        $form = $this->createForm(UserRegistrationFormType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
+            $user = $form->getData();
+            $user->setPassword($userPasswordHasher->hashPassword($user, $form->get('plainPassword')->getData()));
+            $entityManager->persist($user);
+            $entityManager->flush();
 
             return $userAuthenticator->authenticateUser(
                 $user,
@@ -55,7 +55,7 @@ class SecurityController extends AbstractController
             );
         }
 
-        return $this->render('security/register.html.twig', ['error' => '']);
+        return $this->render('security/register.html.twig', ['error' => '', 'form' => $form]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
