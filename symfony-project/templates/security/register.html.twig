@@ -18,19 +18,12 @@
                     </div>
                 </div>
             {% endif %}
-
+            {% form_theme form 'form/password_theme.html.twig' %}
             <div class="col-sm-12">
-                {# <div class="form-signin"> #}
-                {{ form_start(form, {
-                    attr: { class: 'form-signin' }
-                }) }}
-                    {{ form_widget(form) }}
-                    <button type="submit" class="btn btn-primary form-control">
-                        Зарегистрироваться
-                    </button>
-                {{ form_end(form) }}
-                {# </div> #}
+                        <h1 class="h3 mb-3 font-weight-normal text-center">Регистрация</h1>
+                        {{ form(form, {attr: {class: 'form-signin'}}) }}
             </div>
+
 
         </div>
     </div>

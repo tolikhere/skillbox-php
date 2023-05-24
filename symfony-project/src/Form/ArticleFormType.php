@@ -8,7 +8,6 @@ use App\Form\DataTransformer\ArticleWordsFilterTransformer;
 use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,6 +21,9 @@ class ArticleFormType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var  Article|null $article*/
+        $article = $options['data'] ?? null;
+        $cannotEditAuthor = $article?->getId() && $article?->isPublished();
         $builder
             ->add('title', options:       ['label' => 'label.title', 'required' => false])
             ->add('description', options: ['label' => 'label.description', 'required' => false])
@@ -29,6 +31,7 @@ class ArticleFormType extends AbstractType
             ->add('keywords', options:    ['label' => 'label.keywords'])
             ->add('author', EntityType::class, [
                 'class'        => User::class,
+                'disabled'     => $cannotEditAuthor,
                 'label'        => 'label.author',
                 'choice_label' => function (User $user) {
                     return $user->getFirstName();
@@ -38,12 +41,15 @@ class ArticleFormType extends AbstractType
                 'placeholder' => 'choices.placeholder.author',
                 'required' => false
             ])
-            ->add('publishedAt', options: [
-                'label'  => 'label.publishedAt',
-                'widget' => 'single_text',
-                'attr'   => ['class' => "col-3"],
-            ])
         ;
+
+        if ($options['enabled_published_at']) {
+            $builder->add('publishedAt', options: [
+                    'label'  => 'label.publishedAt',
+                    'widget' => 'single_text',
+                    'attr'   => ['class' => "col-3"],
+            ]);
+        }
 
         $builder->get('body')->addModelTransformer($this->transformer);
         $builder->get('description')->addModelTransformer($this->transformer)
@@ -54,6 +60,7 @@ class ArticleFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Article::class,
+            'enabled_published_at' => false,
         ]);
     }
 }

@@ -2,17 +2,15 @@
 
 namespace App\Form;
 
-use App\Entity\User;
+use App\Form\Model\UserRegistrationFormModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\IsTrue;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserRegistrationFormType extends AbstractType
 {
@@ -21,25 +19,42 @@ class UserRegistrationFormType extends AbstractType
         $builder
             ->add('firstName', TextType::class, [
                 'label' => 'label.first_name',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'placeholder.first_name',
+                ],
+                'label_attr' => [
+                    'class' => 'sr-only',
+                ],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'label.email',
+                'attr' => [
+                    'placeholder' => 'placeholder.email'
+                ],
+                'label_attr' => [
+                    'class' => 'sr-only',
+                ],
+                // 'required' => false
             ])
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'label.password',
-                'mapped' => false,
-                'constraints' => [
-                    new NotBlank(['message' => 'user.blank_password']),
-                    new Length(['min' => 6, 'minMessage' => 'user.too_short_password']),
-                ]
+                'attr' => [
+                    'placeholder' => 'placeholder.password'
+                ],
+                'label_attr' => [
+                    'class' => 'sr-only',
+                ],
+                // 'required' => false
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => 'label.agree_terms',
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'user.is_true_agree_terms',
-                    ]),
+                // 'required' => false
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'value' => 'My button',
+                    'class' => 'form-control btn btn-primary'
                 ]
             ])
         ;
@@ -48,7 +63,7 @@ class UserRegistrationFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => UserRegistrationFormModel::class,
         ]);
     }
 }

@@ -60,7 +60,9 @@ class ArticlesController extends AbstractController
     #[Route(path: '/admin/articles/{id}/edit', name: 'app_admin_articles_edit')]
     public function edit(Article $article, Request $request): Response
     {
-        $form = $this->createForm(ArticleFormType::class, $article);
+        $form = $this->createForm(ArticleFormType::class, $article, options: [
+            'enabled_published_at' => true,
+        ]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
