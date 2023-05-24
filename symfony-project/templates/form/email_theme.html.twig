@@ -1,0 +1,13 @@
+{% block email_row %}
+    <div class="form-group">
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">{{ symbol }}</div>
+            </div>
+            {{ form_widget(form) }}
+        </div>
+        {{ form_help(form) }}
+    </div>
+{% endblock %}

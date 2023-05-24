@@ -46,7 +46,7 @@
             </trans-unit>
             <trans-unit id="user.unique_email">
                 <source>user.unique_email</source>
-                <target>Вы уже зарегистрированы!</target>
+                <target>Такой email уже используется!</target>
             </trans-unit>
             <trans-unit id="user.blank_email">
                 <source>user.blank_email</source>

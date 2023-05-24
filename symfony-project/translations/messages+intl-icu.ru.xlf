@@ -71,11 +71,11 @@
             <!-- ***USER*** -->
             <trans-unit id="label.email">
                 <source>label.email</source>
-                <target>Email</target>
+                <target>Ваш Email</target>
             </trans-unit>
             <trans-unit id="label.password">
                 <source>label.password</source>
-                <target>Пароль</target>
+                <target>Ваш Пароль</target>
             </trans-unit>
             <trans-unit id="label.first_name">
                 <source>label.first_name</source>
@@ -84,6 +84,18 @@
             <trans-unit id="label.agree_terms">
                 <source>label.agree_terms</source>
                 <target>Согласен с условиями</target>
+            </trans-unit>
+            <trans-unit id="placeholder.email">
+                <source>placeholder.email</source>
+                <target>Ваш Email...</target>
+            </trans-unit>
+            <trans-unit id="placeholder.first_name">
+                <source>placeholder.first_name</source>
+                <target>Ваше имя...</target>
+            </trans-unit>
+            <trans-unit id="placeholder.password">
+                <source>placeholder.password</source>
+                <target>Ваш Пароль</target>
             </trans-unit>
         </body>
     </file>
