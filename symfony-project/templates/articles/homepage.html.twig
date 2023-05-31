@@ -16,7 +16,7 @@
                             <div class="article-container mb-2">
                                 <div class="row no-gutters border flex-md-row p-3 mb-4 shadow-sm">
                                     <div class="col-auto d-block">
-                                        <img class="article-img rounded" src="{{ asset(article.imagePath) }}">
+                                        <img class="article-img rounded" src="{{ article.imagePath | imagine_filter('article_thumbnail_small') }}" alt="article image">
                                     </div>
                                     <a class="col px-4 d-flex flex-column article-item" href="{{ path('app_article_detail', { slug: article.slug })}}">
                                         <h5 class="mb-2">{{ article.title }}</h5>

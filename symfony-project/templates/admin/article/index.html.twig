@@ -18,15 +18,17 @@
             <th>Описание</th>
             <th>Автор</th>
             <th>Опубликована</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         {% for article in pager %}
             <tr>
-                <td><a href="{{ path('app_admin_articles_edit', { id: article.id }) }}">{{ article.title }}</a></td>
+                <td><a href="{{ path('app_article_detail', { slug: article.slug }) }}">{{ article.title }}</a></td>
                 <td>{{ article.description }}</td>
                 <td style="width: 20%;">{{ article.author.firstName }}</td>
                 <td><i class="fas fa-{{ article.isPublished ? 'check text-primary' : 'times text-warning'}}"></i></td>
+                <td><a href="{{ path('app_admin_articles_edit', { id: article.id }) }}"><i class="fas fa-pen"></i></a></td>
             </tr>
         {% else %}
             <tr>
