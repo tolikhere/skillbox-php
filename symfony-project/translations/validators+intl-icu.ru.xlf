@@ -31,6 +31,10 @@
                 <source>article.blank_author</source>
                 <target>Пожалуйста, не оставляйте автор статьи пустым!</target>
             </trans-unit>
+            <trans-unit id="article.null_image">
+                <source>article.null_image</source>
+                <target>Пожалуйста, загрузите изображение!</target>
+            </trans-unit>
             <!-- USER -->
             <trans-unit id="user.too_short_password">
                 <source>user.too_short_password</source>
@@ -42,7 +46,7 @@
             </trans-unit>
             <trans-unit id="user.is_bot">
                 <source>user.is_bot</source>
-                <target>*"Ботам здесь не место"*</target>
+                <target>Ботам здесь не место</target>
             </trans-unit>
             <trans-unit id="user.unique_email">
                 <source>user.unique_email</source>

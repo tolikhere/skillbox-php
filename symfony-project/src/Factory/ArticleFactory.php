@@ -6,7 +6,10 @@ use App\Entity\Article;
 use App\Homework\ArticleContentProviderInterface;
 use App\Homework\ArticleProvider;
 use App\Repository\ArticleRepository;
+use App\Service\FileUploader;
 use App\Traits\ArticleContentGenerator;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\File;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
@@ -41,7 +44,8 @@ final class ArticleFactory extends ModelFactory
      */
     public function __construct(
         private ArticleProvider $articleProvider,
-        private ArticleContentProviderInterface $articleContentProvider
+        private ArticleContentProviderInterface $articleContentProvider,
+        private FileUploader $fileUploader
     ) {
         parent::__construct();
     }
@@ -67,7 +71,7 @@ final class ArticleFactory extends ModelFactory
             'description' => $description,
             'title' => $title,
             'keywords' => self::faker()->words(5, true),
-            'imageFilename' => $image,
+            'imageFilename' => $this->fakeUploadImage($image),
             'publishedAt' => self::faker()->boolean(70) ?  \DateTimeImmutable::createFromMutable(
                 self::faker()->dateTimeBetween('-100 days', '-1 days')
             ) : null,
@@ -88,5 +92,14 @@ final class ArticleFactory extends ModelFactory
     protected static function getClass(): string
     {
         return Article::class;
+    }
+
+    private function fakeUploadImage(string $imageName): string
+    {
+        $fs = new Filesystem();
+        $targetPath = sys_get_temp_dir() . '/' . $imageName;
+        $fs->copy(__DIR__ . '/images/' . $imageName, $targetPath, true);
+
+        return $this->fileUploader->uploadArticleImage(new File($targetPath), null);
     }
 }

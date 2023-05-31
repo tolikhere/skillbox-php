@@ -36,6 +36,10 @@
                 <source>label.edit</source>
                 <target>Изменить</target>
             </trans-unit>
+            <trans-unit id="placeholder.image_file">
+                <source>placeholder.image_file</source>
+                <target>Выберите изображение</target>
+            </trans-unit>
             <!-- choices -->
             <trans-unit id="choices.placeholder.author">
                 <source>choices.placeholder.author</source>
@@ -96,6 +100,10 @@
             <trans-unit id="placeholder.password">
                 <source>placeholder.password</source>
                 <target>Ваш Пароль</target>
+            </trans-unit>
+            <trans-unit id="label.image_file_name">
+                <source>label.image_file_name</source>
+                <target>Изображение статьи</target>
             </trans-unit>
         </body>
     </file>

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use App\Service\FileUploader;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -203,7 +204,7 @@ class Article
 
     public function getImagePath()
     {
-        return 'images/' . $this->getImageFilename();
+        return FileUploader::ARTICLE_IMAGE . '/' . $this->getImageFilename();
     }
 
     public function getVotesClassName()

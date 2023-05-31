@@ -5,9 +5,11 @@ namespace App\Controller\Admin;
 use App\Entity\Article;
 use App\Form\ArticleFormType;
 use App\Repository\ArticleRepository;
+use App\Service\FileUploader;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,7 +38,7 @@ class ArticlesController extends AbstractController
     }
 
     #[Route(path: '/admin/articles/create', name: 'app_admin_articles_create')]
-    public function create(Request $request): Response
+    public function create(Request $request, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(ArticleFormType::class);
 
@@ -44,6 +46,13 @@ class ArticlesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Article $article */
             $article = $form->getData();
+
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('imageFile')->getData();
+            if ($imageFile) {
+                $imageFilename = $fileUploader->uploadArticleImage($imageFile, $article->getImageFilename());
+                $article->setImageFilename($imageFilename);
+            }
 
             $this->articleRepository->save($article, true);
 
@@ -58,7 +67,7 @@ class ArticlesController extends AbstractController
 
     #[IsGranted('ARTICLE_EDIT', subject: 'article')]
     #[Route(path: '/admin/articles/{id}/edit', name: 'app_admin_articles_edit')]
-    public function edit(Article $article, Request $request): Response
+    public function edit(Article $article, Request $request, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(ArticleFormType::class, $article, options: [
             'enabled_published_at' => true,
@@ -68,6 +77,13 @@ class ArticlesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Article $article */
             $article = $form->getData();
+
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('imageFile')->getData();
+            if ($imageFile) {
+                $imageFilename = $fileUploader->uploadArticleImage($imageFile, $article->getImageFilename());
+                $article->setImageFilename($imageFilename);
+            }
 
             $this->articleRepository->save($article, true);
 

@@ -1,0 +1,48 @@
+# Documentation on how to configure the bundle can be found at: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
+liip_imagine:
+    # valid drivers options include "gd" or "gmagick" or "imagick"
+    driver: "gd"
+    twig:
+        mode: lazy
+    loaders:
+        flysystem_loader:
+            flysystem:
+                filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
+
+    # default loader to use for all filter sets
+    data_loader: flysystem_loader
+    # configure resolvers
+    resolvers:
+        flysystem_resolver:
+            flysystem:
+                filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
+                root_url:           '%uploads_base_url%'
+                cache_prefix:       media/cache
+                visibility:         public
+    cache: flysystem_resolver
+    # your filter sets are defined here
+    filter_sets:
+        cache: ~
+
+
+        # the name of the "filter set"
+        article_thumbnail_small:
+            # adjust the image quality to 75%
+            quality: 75
+
+            # list of transformations to apply (the "filters")
+            filters:
+                # create a thumbnail: set size to 480 x 300 px and use the "outbound" mode
+                # to crop the image when the size ratio of the input differs
+                thumbnail: { size: [480, 300], mode: outbound }
+
+        article_thumbnail_medium:
+            # adjust the image quality to 75%
+            quality: 90
+
+            # list of transformations to apply (the "filters")
+            filters:
+                # create a thumbnail: set size to 480 x 300 px and use the "outbound" mode
+                # to crop the image when the size ratio of the input differs
+                thumbnail: { size: [750, 500], mode: outbound }
+
