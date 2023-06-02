@@ -1,0 +1,23 @@
+{% extends 'email/emailBase.html.twig' %}
+
+{% block table_title %}Добро пожаловать{% endblock %}
+
+{% block content %}
+
+<div class="content">
+    <table>
+        <tr>
+            <td align="right" class="image-column">
+                <img src="{{ email.image('@images/profile.png') }}" height="80" width="80">
+            </td>
+            <td align="left">
+                <h1>Добро пожаловать, {{ email.toName }}!</h1>
+                <p class="lead">Наконец-таки вы с нами. Переходите скорее на сайт.</p>
+                <a class="btn" href="{{ url('app_homepage') }}">На сайт</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+{% endblock %}
+
