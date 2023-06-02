@@ -1,0 +1,35 @@
+{% extends 'email/emailBase.html.twig' %}
+
+{% block table_title %}Еженедельная рассылка{% endblock %}
+
+{% block content %}
+
+            <div class="content">
+                <table>
+                    <tr>
+                        <td>
+                            <h1>Новые статьи на сайте!</h1>
+                            <p class="lead">За прошедшую неделю на сайте появились следующие статьи.</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        {% for article in articles %}
+
+            <div class="content">
+                <table>
+                    <tr>
+                        <td class="small post-image" width="20%"><img src="{{ absolute_url(article.imagePath | imagine_filter('article_thumbnail_small')) }}" alt=""/></td>
+                        <td>
+                            <h3>{{ article.title }} <small>{{ article.author.firstName }}</small></h3>
+                            <p class="">{{ "#{article.description}..."|markdown_to_html }}</p>
+                            <a class="btn" href="{{ url('app_article_detail', { slug: article.slug }) }}">Читать</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        {% endfor %}
+
+{% endblock %}

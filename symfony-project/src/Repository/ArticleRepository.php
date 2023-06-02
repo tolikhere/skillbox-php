@@ -76,7 +76,7 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
 
-    public function latestQueryBuilder(string $search = null)
+    public function latestQueryBuilder(string $search = null): QueryBuilder
     {
         $query = $this->createQueryBuilder('a');
         if ($search) {
@@ -91,28 +91,59 @@ class ArticleRepository extends ServiceEntityRepository
             ->orderBy('a.publishedAt', 'DESC');
     }
 
-//    /**
-//     * @return Article[] Returns an array of Article objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Article[]
+     */
 
-//    public function findOneBySomeField($value): ?Article
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findAllPublishedLastWeek()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.publishedAt >= :week_ago')
+            ->andWhere('a.publishedAt IS NOT NULL')
+            ->setParameter('week_ago', new \DateTime('-1 week'))
+            ->innerJoin('a.author', 'u')
+            ->addSelect('u')
+            ->orderBy('a.publishedAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Article[]
+     */
+    public function findAllArticlesInRange($dateFrom, $dateTo): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.createdAt >= :dateFrom')
+            ->andWhere('a.createdAt <= :dateTo')
+            ->setParameter('dateFrom', $dateFrom)
+            ->setParameter('dateTo', $dateTo)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function countArticlesInDateRange(\DateTime $dateFrom, \DateTime $dateTo, bool $isPublished = false): int
+    {
+        $query = $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+        ;
+        if ($isPublished) {
+            $query->andWhere('a.publishedAt IS NOT NULL')
+                ->andWhere('a.publishedAt >= :dateFrom')
+                ->andWhere('a.publishedAt <= :dateTo')
+            ;
+        } else {
+            $query->andWhere('a.createdAt >= :dateFrom')
+                ->andWhere('a.createdAt <= :dateTo')
+            ;
+        }
+
+        return $query->setParameter('dateFrom', $dateFrom)
+            ->setParameter('dateTo', $dateTo)
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
 }

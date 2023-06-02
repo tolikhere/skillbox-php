@@ -4,6 +4,9 @@ twig:
         'bootstrap_4_layout.html.twig',
         'form/email_theme.html.twig'
     ]
+    paths:
+        '%kernel.project_dir%/public/images': images
+        '%kernel.project_dir%/public/css': styles
 
 when@test:
     twig:

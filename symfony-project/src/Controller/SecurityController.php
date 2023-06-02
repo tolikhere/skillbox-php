@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\Model\UserRegistrationFormModel;
 use App\Form\UserRegistrationFormType;
 use App\Security\LoginFormAuthenticator;
+use App\Service\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +39,8 @@ class SecurityController extends AbstractController
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager,
         UserAuthenticatorInterface $userAuthenticator,
-        LoginFormAuthenticator $loginFormAuthenticator
+        LoginFormAuthenticator $loginFormAuthenticator,
+        Mailer $mailer
     ): Response {
         $form = $this->createForm(UserRegistrationFormType::class);
         $form->handleRequest($request);
@@ -52,6 +54,8 @@ class SecurityController extends AbstractController
                 ->setPassword($userPasswordHasher->hashPassword($user, $userModel->plainPassword));
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $mailer->sendWelcomeMessage($user);
 
             return $userAuthenticator->authenticateUser(
                 $user,
