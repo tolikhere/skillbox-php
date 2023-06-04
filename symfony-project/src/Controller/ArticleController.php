@@ -9,22 +9,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ArticleRepository;
-use App\Repository\CommentRepository;
 
 class ArticleController extends AbstractController
 {
     use ArticleContentGenerator;
 
     #[Route('/', name: 'app_homepage', methods: ['GET'])]
-    public function homepage(ArticleRepository $articleRepository, CommentRepository $commentRepository): Response
+    public function homepage(ArticleRepository $articleRepository): Response
     {
         $articles = $articleRepository->orderByPublishedAtField();
-        $comments = $commentRepository->findLatestComments(3);
 
         return $this->render('articles/homepage.html.twig', [
             'title' => 'Spill-Coffee-On-The-Keyboard',
             'articles' => $articles,
-            'comments' => $comments
         ]);
     }
 

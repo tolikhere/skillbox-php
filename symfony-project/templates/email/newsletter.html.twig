@@ -1,9 +1,10 @@
 {% extends 'email/emailBase.html.twig' %}
 
-{% block table_title %}Еженедельная рассылка{% endblock %}
+{% block table_title %}{{ title }}{% endblock %}
 
 {% block content %}
 
+        {% if isWeeklyReport %}
             <div class="content">
                 <table>
                     <tr>
@@ -14,6 +15,7 @@
                     </tr>
                 </table>
             </div>
+        {% endif %}
 
         {% for article in articles %}
 
