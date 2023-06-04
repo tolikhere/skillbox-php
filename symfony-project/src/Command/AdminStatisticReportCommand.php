@@ -72,8 +72,7 @@ class AdminStatisticReportCommand extends Command
 
         // writing data into $tmpFile in a csv format
         foreach ($data as $line) {
-            fwrite($tmpFile, '|');
-            fputcsv($tmpFile, $line, '|', eol: '|' . PHP_EOL);
+            fputcsv($tmpFile, $line);
         }
 
         $this->mailer->sendAdminStatisticReport($tmpFile, $dateFrom, $dateTo, $email);

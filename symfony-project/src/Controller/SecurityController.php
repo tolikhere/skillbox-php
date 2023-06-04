@@ -3,12 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Events\UserRegisteredEvent;
 use App\Form\Model\UserRegistrationFormModel;
 use App\Form\UserRegistrationFormType;
 use App\Security\LoginFormAuthenticator;
-use App\Service\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -40,7 +41,7 @@ class SecurityController extends AbstractController
         EntityManagerInterface $entityManager,
         UserAuthenticatorInterface $userAuthenticator,
         LoginFormAuthenticator $loginFormAuthenticator,
-        Mailer $mailer
+        EventDispatcherInterface $eventDispatcher
     ): Response {
         $form = $this->createForm(UserRegistrationFormType::class);
         $form->handleRequest($request);
@@ -55,7 +56,8 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $mailer->sendWelcomeMessage($user);
+            $eventDispatcher->dispatch(new UserRegisteredEvent($user));
+
 
             return $userAuthenticator->authenticateUser(
                 $user,

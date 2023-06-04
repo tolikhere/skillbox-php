@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Article;
 use App\Entity\User;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Email;
@@ -33,7 +34,9 @@ class Mailer
             'email/newsletter.html.twig',
             'Еженедельная рассылка статей Spill-Coffee-On-The-Keyboard'
         )->context([
-                'articles' => $articles,
+                'articles'       => $articles,
+                'title'          => 'Еженедельная рассылка',
+                'isWeeklyReport' => true,
             ])
         ->attach('Опубликовано статей на сайте: ' . count($articles), 'report_' . date('Y-m-d') . '.txt')
         ;
@@ -61,6 +64,21 @@ class Mailer
             ->text('Отчет ' . $dateFrom->format('d.m.Y') . ' - ' . $dateTo->format('d.m.Y'))
             ->attach($file, 'report.csv')
         ;
+
+        $this->mailer->send($email);
+    }
+
+    public function sendAdminNotification(User $user, Article $article): void
+    {
+        $email = $this->createHtmlEmailTemplate(
+            $user,
+            'email/newsletter.html.twig',
+            'Создана новая статья Spill-Coffee-On-The-Keyboard'
+        )->context([
+            'articles'       => [$article],
+            'title'          => 'Создана новая статья',
+            'isWeeklyReport' => false
+        ]);
 
         $this->mailer->send($email);
     }

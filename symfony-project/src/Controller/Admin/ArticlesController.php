@@ -3,12 +3,14 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Article;
+use App\Events\ArticleCreatedEvent;
 use App\Form\ArticleFormType;
 use App\Repository\ArticleRepository;
 use App\Service\FileUploader;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,8 +40,11 @@ class ArticlesController extends AbstractController
     }
 
     #[Route(path: '/admin/articles/create', name: 'app_admin_articles_create')]
-    public function create(Request $request, FileUploader $fileUploader): Response
-    {
+    public function create(
+        Request $request,
+        FileUploader $fileUploader,
+        EventDispatcherInterface $eventDispatcher
+    ): Response {
         $form = $this->createForm(ArticleFormType::class);
 
         $form->handleRequest($request);
@@ -57,6 +62,9 @@ class ArticlesController extends AbstractController
             $this->articleRepository->save($article, true);
 
             $this->addFlash('success', 'article.created_successfully');
+
+            // Event dispatch
+            $eventDispatcher->dispatch(new ArticleCreatedEvent($article));
 
             return $this->redirectToRoute('app_admin_articles');
         }
