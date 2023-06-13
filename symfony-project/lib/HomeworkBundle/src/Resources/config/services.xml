@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services
+        https://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <!-- Autowiring service -->
+        <service id="symfony_skillbox_homework.unit_factory" class="SymfonySkillbox\HomeworkBundle\UnitFactory" public="true">
+            <argument type="service" id="symfony_skillbox_homework.strategy" />
+            <argument type="tagged" tag="symfony_skillbox_homework.unit_provider" />
+        </service>
+
+        <!-- Strategies -->
+        <service id="symfony_skillbox_homework.strength_strategy" class="SymfonySkillbox\HomeworkBundle\StrengthStrategy" />
+        <service id="symfony_skillbox_homework.strategy_health" class="SymfonySkillbox\HomeworkBundle\HealthStrategy" />
+        <service id="symfony_skillbox_homework.strategy_agility" class="SymfonySkillbox\HomeworkBundle\AgilityStrategy" />
+        <!-- Default unit provider -->
+        <service id="symfony_skillbox_homework.base_unit" class="SymfonySkillbox\HomeworkBundle\BaseUnitProvider" />
+        <!-- Alias -->
+        <service id="SymfonySkillbox\HomeworkBundle\UnitFactory" alias="symfony_skillbox_homework.unit_factory" public="false" />
+        <service id="symfony_skillbox_homework.strategy" alias="symfony_skillbox_homework.strength_strategy" public="false" />
+        <!-- Console command for creating units -->
+        <service id="symfony_skillbox_homework.produce_unit_command" class="SymfonySkillbox\HomeworkBundle\Command\SymfonySkillboxHomeworkProduceUnitsCommand">
+            <argument type="service" id="symfony_skillbox_homework.unit_factory"/>
+            <tag name="console.command" command="symfony-skillbox-homework:produce-units"/>
+        </service>
+    </services>
+</container>

@@ -1,0 +1,21 @@
+{
+    "name": "symfony-skillbox-homework/unit-factory-bundle",
+    "description": "Creating units for your awesome games!",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tolik Pavlenko",
+            "email": "fenixdurangoadrenalin@gmail.com",
+            "role" : "Creator"
+        }
+    ],
+    "require": {
+        "php": "^8.1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "SymfonySkillbox\\HomeworkBundle\\": "src/"
+        }
+    }
+}

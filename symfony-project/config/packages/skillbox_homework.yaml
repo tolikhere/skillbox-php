@@ -1,0 +1,6 @@
+# symfony_skillbox_homework:
+    # strategy:
+        # symfony_skillbox_homework.strategy_agility
+        # symfony_skillbox_homework.strategy_health
+        # App\Homework\BillGatesStrategy
+        # App\Homework\ZergRushStrategy
