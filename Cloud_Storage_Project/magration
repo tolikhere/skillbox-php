@@ -1,0 +1,101 @@
+#! /usr/bin/env php
+
+<?php
+
+$tableDrops = [
+    'users'        => 'DROP TABLE IF EXISTS `users`;',
+    'shared_files' => 'DROP TABLE IF EXISTS `shared_files`;',
+    'files'        => 'DROP TABLE IF EXISTS `files`;',
+    'directories'  => 'DROP TABLE IF EXISTS `directories`;',
+];
+
+$host = '127.0.0.1';
+$user = 'root';
+$password = 'root';
+$database = 'cloud_storage'; // You can set it to an empty string and uncomment out code on the line 76
+$driver = 'mysql';
+
+try {
+    $pdo = new PDO(
+        "{$driver}:host={$host};dbname={$database}",
+        $user,
+        $password
+    );
+} catch (PDOException $e) {
+    throw new PDOException($e->getMessage(), $e->getCode());
+}
+
+$tables = [
+    'users' => 'CREATE TABLE `users` (
+                `id` int unsigned NOT NULL AUTO_INCREMENT,
+                `email` varchar(255) NOT NULL,
+                `password` varchar(255) NOT NULL,
+                `role` varchar(100) DEFAULT NULL,
+                PRIMARY KEY (`id`),
+                UNIQUE KEY `email` (`email`),
+                KEY `role_name` (`role`)
+                ) ENGINE=InnoDB;',
+
+    'files' => 'CREATE TABLE `files` (
+                `id` int unsigned NOT NULL AUTO_INCREMENT,
+                `file_name` varchar(255) NOT NULL,
+                `stored_fname` varchar(255) NOT NULL,
+                `user_id` int unsigned DEFAULT NULL,
+                `dir_id` int unsigned DEFAULT NULL,
+                `created_at` datetime NOT NULL,
+                `updated_at` datetime NOT NULL,
+                PRIMARY KEY (`id`),
+                KEY `user_id` (`user_id`),
+                KEY `dir_id` (`dir_id`),
+                FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+                FOREIGN KEY (`dir_id`) REFERENCES `directories` (`id`) ON UPDATE CASCADE
+            ) ENGINE=InnoDB;',
+
+    'shared_files' => 'CREATE TABLE `shared_files` (
+                        `user_id` int unsigned NOT NULL,
+                        `file_id` int unsigned NOT NULL,
+                        PRIMARY KEY (`user_id`,`file_id`),
+                        KEY `file_id` (`file_id`),
+                        FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                        FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+                    ) ENGINE=InnoDB;',
+
+    'directories' => 'CREATE TABLE `directories` (
+                        `id` int unsigned NOT NULL AUTO_INCREMENT,
+                        `dir_name` varchar(255) NOT NULL,
+                        `user_id` int unsigned DEFAULT NULL,
+                        `parent_id` int unsigned DEFAULT NULL,
+                        PRIMARY KEY (`id`),
+                        KEY `user_id` (`user_id`),
+                        KEY `dir_id` (`parent_id`),
+                        FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+                        FOREIGN KEY (`parent_id`) REFERENCES `directories` (`id`) ON UPDATE CASCADE
+                    ) ENGINE=InnoDB;'
+];
+
+// if ($pdo->exec('CREATE DATABASE IF NOT EXISTS cloud_storage') === false) {
+//     print_r($pdo->errorInfo());
+// } else {
+//     $pdo->exec('USE cloud_storage');
+// }
+
+$pdo->query('SET FOREIGN_KEY_CHECKS = 0;');
+
+// The code below drops tables
+foreach ($tableDrops as $tableName => $tableDrop) {
+    if ($pdo->query($tableDrop) === false) {
+        print_r($pdo->errorInfo());
+    } else {
+        echo "Table {$tableName} dropped successfully" . PHP_EOL;
+    }
+}
+// the code below creates tables
+foreach ($tables as $tableName => $table) {
+    if ($pdo->query($table) === false) {
+        print_r($pdo->errorInfo());
+    } else {
+        echo "Table {$tableName} created successfully" . PHP_EOL;
+    }
+}
+
+$pdo->query('SET FOREIGN_KEY_CHECKS = 1;');

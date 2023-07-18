@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: cloud-storage-php
+    restart: always
+    working_dir: /var/www/
+    volumes:
+      - ./src:/var/www
+  nginx:
+    image: nginx:alpine
+    container_name: cloud-storage-nginx
+    restart: always
+    ports:
+      - "8000:80"
+    volumes:
+      - ./src:/var/www
+      - ./nginx:/etc/nginx/conf.d
+  db:
+    container_name: cloud-storage-db
+    image: mysql:8.0
+    volumes:
+      - ./storage/mysql:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
